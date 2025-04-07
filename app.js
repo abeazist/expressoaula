@@ -20,6 +20,20 @@ app.get('/ola2', function (req,res){
     res.send(`Bem vindo, ${nome} ${sobrenome}`)
 });
 
+
+app.get('/endereco', function(req,res){
+    fetch("https://brasilapi.com.br/api/cep/v2/" + "87301-899")
+        .then((response) => response.json())
+        .then((endereco) => {
+            res.send(`Endereço: ${endereco.street}`);
+        })
+        .catch(error => {
+            console.log("Erro ao acessar o link");
+            res.semd("Ops, houve um erro");
+
+        })
+});
+
 app.get('/ola/:nome/:sobrenome', function (req,res){
     res.send(`Bem vindo, ${req.params.nome} ${req.params.sobrenome}`)
 })

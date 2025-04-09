@@ -21,18 +21,18 @@ const port = 8086;
 // });
 
 
-app.get('/feriado', function(req,res){
-    fetch("https://brasilapi.com.br/api/feriados/v1/" + 2024)
-        .then((response) => response.json())
-        .then((feriado) => {
-            res.send(`Os feriados do ano de 2024 é, ${feriado.name}, ${feriado.date} são:`);
-        })
-        .catch(error => {
-            console.log("Erro ao acessar o link");
-            res.send("Ops, houve um erro");
+// app.get('/feriado', function(req,res){
+//     fetch("https://brasilapi.com.br/api/feriados/v1/" + 2024)
+//         .then((response) => response.json())
+//         .then((feriado) => {
+//             res.send(`Os feriados do ano de 2024 é, ${feriado.name}, ${feriado.date} são:`);
+//         })
+//         .catch(error => {
+//             console.log("Erro ao acessar o link");
+//             res.send("Ops, houve um erro");
 
-        })
-});
+//         })
+// });
 
 app.get('/feriado/:ano', function (req,res){
     const ano = req.params.ano;

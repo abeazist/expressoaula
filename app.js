@@ -35,9 +35,8 @@ const port = 8086;
 // });
 
 app.get('/feriado/:ano', function (req,res){
-    const ano = req.params.ano;
 
-    fetch(`https://brasilapi.com.br/api/feriados/v1/${ano}`)
+    fetch(`https://brasilapi.com.br/api/feriados/v1/${ req.params.ano}`)
         .then((response) => response.json())
         .then((feriado) => {
             res.send(`Os feriados são:, ${feriado.date}, ${feriado.nome}`);

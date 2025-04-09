@@ -2,45 +2,73 @@ const express = require('express');
 const app = express();
 const port = 8086;
 
-app.get('/', function(req,res){
-    res.send("Bem-vindo!");
-})
+// app.get('/', function(req,res){
+//     res.send("Bem-vindo!");
+// })
 
-app.get('/homepage', function(req,res,next){
-    console.log("A resposta está na próxima função");
-    next(); //NÃO ESQUEÇA DE CHAMAR O NEXT
-}, (req,res) => {
-    res.send("bea linda!")
-});
+// app.get('/homepage', function(req,res,next){
+//     console.log("A resposta está na próxima função");
+//     next(); //NÃO ESQUEÇA DE CHAMAR O NEXT
+// }, (req,res) => {
+//     res.send("bea linda!")
+// });
 
-//PASAGEM POR PARAMETRO USANDO QUERY STRING
-//localhost:8086/ola2?nome=Beatriz&sobrenome=Oliveira
-app.get('/ola2', function (req,res){
-    const {nome,sobrenome} = req.query
-    res.send(`Bem vindo, ${nome} ${sobrenome}`)
-});
+// //PASAGEM POR PARAMETRO USANDO QUERY STRING
+// //localhost:8086/ola2?nome=Beatriz&sobrenome=Oliveira
+// app.get('/ola2', function (req,res){
+//     const {nome,sobrenome} = req.query
+//     res.send(`Bem vindo, ${nome} ${sobrenome}`)
+// });
 
 
-app.get('/endereco', function(req,res){
-    fetch("https://brasilapi.com.br/api/cep/v2/" + "87301-899")
+app.get('/feriado', function(req,res){
+    fetch("https://brasilapi.com.br/api/feriados/v1/" + 2024)
         .then((response) => response.json())
-        .then((endereco) => {
-            res.send(`Endereço: ${endereco.street}`);
+        .then((feriado) => {
+            res.send(`Os feriados do ano de 2024 é, ${feriado.name}, ${feriado.date} são:`);
         })
         .catch(error => {
             console.log("Erro ao acessar o link");
-            res.semd("Ops, houve um erro");
+            res.send("Ops, houve um erro");
 
         })
 });
 
-app.get('/ola/:nome/:sobrenome', function (req,res){
-    res.send(`Bem vindo, ${req.params.nome} ${req.params.sobrenome}`)
+app.get('/feriado/:ano', function (req,res){
+    const ano = req.params.ano;
+
+    fetch(`https://brasilapi.com.br/api/feriados/v1/${ano}`)
+        .then((response) => response.json())
+        .then((feriado) => {
+            res.send(`Os feriados são:, ${feriado.date}, ${feriado.nome}`);
+        })
+    
 })
+
+app.get('/livros/:isbn', function(req,res){
+    const isbn = req.params.isbn;
+
+    fetch(`https://brasilapi.com.br/api/isbn/v1/${isbn}`)
+        .then((response) => response.json())
+        .then((livros) => {
+            res.send(`
+                Informações do livro ${livros.title}, 
+                código ISBN ${livros.isbn}, 
+                ano ${livros.year}, 
+                autores ${livros.authors},
+                sinopse: ${livros.synopsis}
+                `);
+        })
+        .catch(error => {
+            console.log("Erro ao acessar o link");
+            res.send("Ops, houve um erro");
+
+        })
+});
 
 
 
 
 app.listen(port, () => {
-    console.log(`servidor rodando na porta ${port}...`)
+    console.log(`servidor rodando na porta ${port}... blueblueblue`)
 });

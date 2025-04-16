@@ -51,10 +51,7 @@ app.get('/feriado/:ano', function (req, res) {
                 ${lista}
             `);
         })
-        .catch(function (error) {
-            console.log("Erro ao acessar o link");
-            res.send("Ops, houve um erro");
-        });
+       
 });
 
 

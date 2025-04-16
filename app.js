@@ -34,15 +34,29 @@ const port = 8086;
 //         })
 // });
 
-app.get('/feriado/:ano', function (req,res){
-
-    fetch(`https://brasilapi.com.br/api/feriados/v1/${ req.params.ano}`)
-        .then((response) => response.json())
-        .then((feriado) => {
-            res.send(`Os feriados são:, ${feriado.date}, ${feriado.nome}`);
+app.get('/feriado/:ano', function (req, res) {
+    fetch(`https://brasilapi.com.br/api/feriados/v1/${req.params.ano}`)
+        .then(function (response) {
+            return response.json();
         })
-    
-})
+        .then(function (feriados) {
+            let lista = '';
+            feriados.forEach(function (f) {
+                lista += `\n- ${f.date}- ${f.name}`;
+            });
+
+            res.send(`
+                Feriados do ano:
+                ${req.params.ano}
+                ${lista}
+            `);
+        })
+        .catch(function (error) {
+            console.log("Erro ao acessar o link");
+            res.send("Ops, houve um erro");
+        });
+});
+
 
 app.get('/livros/:isbn', function(req,res){
     const isbn = req.params.isbn;
